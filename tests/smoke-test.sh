@@ -7,7 +7,6 @@ set -e
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
-YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}=== ATS Cluster Smoke Test ===${NC}"
@@ -41,8 +40,8 @@ FAILED=0
 # HAProxy
 check_service "HAProxy" "http://localhost:80/" || FAILED=$((FAILED + 1))
 
-# HAProxy Stats
-check_service "HAProxy Stats" "http://localhost:8404/stats" 200 || FAILED=$((FAILED + 1))
+# HAProxy Stats (with basic auth)
+check_service "HAProxy Stats" "http://admin:admin@localhost:8404/stats" 200 || FAILED=$((FAILED + 1))
 
 # Prometheus
 check_service "Prometheus" "http://localhost:9090/-/healthy" || FAILED=$((FAILED + 1))
@@ -60,7 +59,7 @@ check_service "Static JS" "http://localhost/static/app.js" || FAILED=$((FAILED +
 
 echo ""
 echo -e "${BLUE}=== Docker Container Status ===${NC}"
-docker-compose ps
+docker compose ps
 
 echo ""
 if [ $FAILED -eq 0 ]; then

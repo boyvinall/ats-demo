@@ -6,7 +6,6 @@ set -e
 
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
-RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
@@ -38,12 +37,12 @@ if ! command -v ab &> /dev/null; then
     echo -e "${YELLOW}Apache Bench (ab) not found. Using curl instead.${NC}"
 
     echo -e "${BLUE}Sending requests...${NC}"
-    for ((i=1; i<=$REQUESTS; i++)); do
+    for ((i=1; i<=REQUESTS; i++)); do
         # Pick a random URL
         URL=${URLS[$RANDOM % ${#URLS[@]}]}
 
         # Make request in background
-        curl -s -o /dev/null http://localhost$URL &
+        curl -s -o /dev/null "http://localhost$URL" &
 
         # Show progress every 10 requests
         if [ $((i % 10)) -eq 0 ]; then
@@ -51,7 +50,7 @@ if ! command -v ab &> /dev/null; then
         fi
 
         # Limit concurrency
-        if [ $(jobs -r | wc -l) -ge $CONCURRENCY ]; then
+        if [ "$(jobs -r | wc -l)" -ge "$CONCURRENCY" ]; then
             wait -n
         fi
     done

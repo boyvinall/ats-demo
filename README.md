@@ -49,8 +49,8 @@ Monitoring:
 # Start all services
 make up
 
-# Or using docker-compose directly
-docker-compose up -d
+# Or using docker compose directly
+docker compose up -d
 ```
 
 Wait ~30 seconds for all services to become healthy, then access:
@@ -265,10 +265,10 @@ for i in {1..5}; do curl -I http://localhost/test 2>&1 | grep Via; done
 
 ```bash
 # Check container status
-docker-compose ps
+docker compose ps
 
 # Check logs for errors
-docker-compose logs
+docker compose logs
 
 # Rebuild images
 make build && make up
@@ -325,7 +325,7 @@ curl http://localhost:9090/api/v1/targets
 curl http://localhost:3000/api/health
 
 # Restart monitoring stack
-docker-compose restart prometheus grafana
+docker compose restart prometheus grafana
 ```
 
 ## Performance Tuning
@@ -351,7 +351,7 @@ http:
 
 ### Scale to More Nodes
 
-1. Add `ats-4` to [docker-compose.yml](docker-compose.yml) (copy `ats-3`)
+1. Add `ats-4` to [docker compose.yml](docker compose.yml) (copy `ats-3`)
 2. Add `ats-4` to [haproxy/haproxy.cfg](haproxy/haproxy.cfg):
    ```
    server ats4 ats-4:8080 check
@@ -364,7 +364,7 @@ http:
 ```
 .
 ├── README.md                    # This file
-├── docker-compose.yml           # Main orchestration
+├── docker compose.yml           # Main orchestration
 ├── Makefile                     # Convenience commands
 ├── .env                         # Configuration
 ├── ats/                         # ATS configuration

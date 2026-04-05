@@ -19,7 +19,7 @@ help:
 ## up: Start the cluster
 up:
 	@echo "$(BLUE)Starting ATS cluster...$(NC)"
-	docker-compose up -d
+	docker compose up -d
 	@echo "$(GREEN)Cluster started!$(NC)"
 	@echo "Access points:"
 	@echo "  - HTTP: http://localhost"
@@ -30,7 +30,7 @@ up:
 ## down: Stop the cluster
 down:
 	@echo "$(BLUE)Stopping ATS cluster...$(NC)"
-	docker-compose down
+	docker compose down
 	@echo "$(GREEN)Cluster stopped!$(NC)"
 
 ## restart: Restart the cluster
@@ -39,29 +39,29 @@ restart: down up
 ## build: Build all images
 build:
 	@echo "$(BLUE)Building images...$(NC)"
-	docker-compose build --no-cache
+	docker compose build
 	@echo "$(GREEN)Build complete!$(NC)"
 
 ## logs: Tail logs from all services
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 ## logs-ats: Tail logs from ATS nodes only
 logs-ats:
-	docker-compose logs -f ats-1 ats-2 ats-3
+	docker compose logs -f ats-1 ats-2 ats-3
 
 ## logs-haproxy: Tail logs from HAProxy
 logs-haproxy:
-	docker-compose logs -f haproxy
+	docker compose logs -f haproxy
 
 ## ps: Show running containers
 ps:
-	@docker-compose ps
+	@docker compose ps
 
 ## stats: Show cluster statistics
 stats:
 	@echo "$(BLUE)Cluster Status:$(NC)"
-	@docker-compose ps
+	@docker compose ps
 	@echo ""
 	@echo "$(BLUE)HAProxy Stats:$(NC)"
 	@curl -s http://localhost:8404/stats 2>/dev/null | grep -A 3 "ats-" || echo "HAProxy not responding"
@@ -97,7 +97,7 @@ clean:
 	echo; \
 	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
 		echo "$(BLUE)Cleaning up...$(NC)"; \
-		docker-compose down -v; \
+		docker compose down -v; \
 		echo "$(GREEN)Cleanup complete!$(NC)"; \
 	else \
 		echo "Cancelled."; \

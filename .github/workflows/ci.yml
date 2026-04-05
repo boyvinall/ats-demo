@@ -22,10 +22,10 @@ jobs:
           echo "Linting shell scripts..."
           shellcheck tests/*.sh
 
-      - name: Validate docker-compose.yml
+      - name: Validate docker compose.yml
         run: |
-          echo "Validating docker-compose.yml syntax..."
-          docker-compose config > /dev/null
+          echo "Validating docker compose.yml syntax..."
+          docker compose config > /dev/null
 
   build-and-test:
     name: Build and Test
@@ -61,7 +61,7 @@ jobs:
         timeout-minutes: 5
         run: |
           echo "Starting services with health checks..."
-          docker-compose up -d --wait --wait-timeout 120
+          docker compose up -d --wait --wait-timeout 120
 
       - name: Verify container status
         if: always()
@@ -76,9 +76,9 @@ jobs:
         run: |
           echo "Capturing logs for debugging..."
           mkdir -p logs
-          for service in $(docker-compose ps --services); do
+          for service in $(docker compose ps --services); do
             echo "Capturing logs for $service..."
-            docker-compose logs "$service" > "logs/${service}.log" 2>&1 || true
+            docker compose logs "$service" > "logs/${service}.log" 2>&1 || true
           done
 
       - name: Upload logs as artifacts
@@ -91,4 +91,4 @@ jobs:
 
       - name: Cleanup Docker resources
         if: always()
-        run: docker-compose down -v || true
+        run: docker compose down -v || true
