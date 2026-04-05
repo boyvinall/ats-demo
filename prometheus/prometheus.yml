@@ -25,9 +25,7 @@ scrape_configs:
         labels:
           instance: 'ats-1'
           service: 'trafficserver'
-    metrics_path: '/_stats'
-    params:
-      format: ['json']  # ATS stats format
+    metrics_path: '/_stats/prometheus'  # Native Prometheus format in v10.1+
 
   # ATS Node 2
   - job_name: 'ats-2'
@@ -36,9 +34,7 @@ scrape_configs:
         labels:
           instance: 'ats-2'
           service: 'trafficserver'
-    metrics_path: '/_stats'
-    params:
-      format: ['json']
+    metrics_path: '/_stats/prometheus'  # Native Prometheus format in v10.1+
 
   # ATS Node 3
   - job_name: 'ats-3'
@@ -47,17 +43,16 @@ scrape_configs:
         labels:
           instance: 'ats-3'
           service: 'trafficserver'
-    metrics_path: '/_stats'
-    params:
-      format: ['json']
+    metrics_path: '/_stats/prometheus'  # Native Prometheus format in v10.1+
 
-  # HAProxy Stats
+  # HAProxy Stats (native Prometheus metrics)
   - job_name: 'haproxy'
     static_configs:
       - targets: ['haproxy:8404']
         labels:
           instance: 'haproxy'
           service: 'loadbalancer'
+    metrics_path: '/metrics'
 
   # Origin API (includes Prometheus metrics)
   - job_name: 'origin-api'
