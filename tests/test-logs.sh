@@ -80,7 +80,7 @@ WARNING_PATTERNS=(
 
 echo -e "${YELLOW}Checking for errors...${NC}"
 for pattern in "${ERROR_PATTERNS[@]}"; do
-    COUNT=$(grep -i "$pattern" "$LOGS_FILE" | grep -vc "level=info")
+    COUNT=$(grep -i "$pattern" "$LOGS_FILE" | grep -vc "level=info" || true)
     if [ "$COUNT" -gt 0 ]; then
         echo -e "${RED}  Found $COUNT line(s) matching '$pattern'${NC}"
         ERRORS=$((ERRORS + COUNT))
@@ -95,7 +95,7 @@ done
 echo ""
 echo -e "${YELLOW}Checking for warnings...${NC}"
 for pattern in "${WARNING_PATTERNS[@]}"; do
-    COUNT=$(grep -i "$pattern" "$LOGS_FILE" | grep -vc "level=info")
+    COUNT=$(grep -i "$pattern" "$LOGS_FILE" | grep -vc "level=info" || true)
     if [ "$COUNT" -gt 0 ]; then
         echo -e "${YELLOW}  Found $COUNT line(s) matching '$pattern'${NC}"
         WARNINGS=$((WARNINGS + COUNT))
