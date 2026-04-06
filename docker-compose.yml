@@ -36,11 +36,11 @@ services:
     hostname: ats-1
     volumes:
       - ats-cache-1:/cache/trafficserver
-      - ./ats/records.yaml:/opt/etc/trafficserver/records.yaml:ro
-      - ./ats/remap.config:/opt/etc/trafficserver/remap.config:ro
-      - ./ats/storage.config:/opt/etc/trafficserver/storage.config:ro
-      - ./ats/plugin.config:/opt/etc/trafficserver/plugin.config:ro
-      - ./ats/logging.yaml:/opt/etc/trafficserver/logging.yaml:ro
+      - ./ats/config/records.yaml:/opt/etc/trafficserver/records.yaml:ro
+      - ./ats/config/remap.config:/opt/etc/trafficserver/remap.config:ro
+      - ./ats/config/storage.config:/opt/etc/trafficserver/storage.config:ro
+      - ./ats/config/plugin.config:/opt/etc/trafficserver/plugin.config:ro
+      - ./ats/config/logging.yaml:/opt/etc/trafficserver/logging.yaml:ro
     environment:
       - TS_NODE_ID=1
       - PROXY_CONFIG_PROXY_NAME=ats-node-1
@@ -48,12 +48,6 @@ services:
       - frontend
       - backend
       - monitoring
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/_stats"]
-      interval: 10s
-      timeout: 3s
-      retries: 3
-      start_period: 15s
     restart: unless-stopped
 
   ats-2:
@@ -64,11 +58,11 @@ services:
     hostname: ats-2
     volumes:
       - ats-cache-2:/cache/trafficserver
-      - ./ats/records.yaml:/opt/etc/trafficserver/records.yaml:ro
-      - ./ats/remap.config:/opt/etc/trafficserver/remap.config:ro
-      - ./ats/storage.config:/opt/etc/trafficserver/storage.config:ro
-      - ./ats/plugin.config:/opt/etc/trafficserver/plugin.config:ro
-      - ./ats/logging.yaml:/opt/etc/trafficserver/logging.yaml:ro
+      - ./ats/config/records.yaml:/opt/etc/trafficserver/records.yaml:ro
+      - ./ats/config/remap.config:/opt/etc/trafficserver/remap.config:ro
+      - ./ats/config/storage.config:/opt/etc/trafficserver/storage.config:ro
+      - ./ats/config/plugin.config:/opt/etc/trafficserver/plugin.config:ro
+      - ./ats/config/logging.yaml:/opt/etc/trafficserver/logging.yaml:ro
     environment:
       - TS_NODE_ID=2
       - PROXY_CONFIG_PROXY_NAME=ats-node-2
@@ -76,12 +70,6 @@ services:
       - frontend
       - backend
       - monitoring
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/_stats"]
-      interval: 10s
-      timeout: 3s
-      retries: 3
-      start_period: 15s
     restart: unless-stopped
 
   ats-3:
@@ -92,11 +80,11 @@ services:
     hostname: ats-3
     volumes:
       - ats-cache-3:/cache/trafficserver
-      - ./ats/records.yaml:/opt/etc/trafficserver/records.yaml:ro
-      - ./ats/remap.config:/opt/etc/trafficserver/remap.config:ro
-      - ./ats/storage.config:/opt/etc/trafficserver/storage.config:ro
-      - ./ats/plugin.config:/opt/etc/trafficserver/plugin.config:ro
-      - ./ats/logging.yaml:/opt/etc/trafficserver/logging.yaml:ro
+      - ./ats/config/records.yaml:/opt/etc/trafficserver/records.yaml:ro
+      - ./ats/config/remap.config:/opt/etc/trafficserver/remap.config:ro
+      - ./ats/config/storage.config:/opt/etc/trafficserver/storage.config:ro
+      - ./ats/config/plugin.config:/opt/etc/trafficserver/plugin.config:ro
+      - ./ats/config/logging.yaml:/opt/etc/trafficserver/logging.yaml:ro
     environment:
       - TS_NODE_ID=3
       - PROXY_CONFIG_PROXY_NAME=ats-node-3
@@ -104,12 +92,6 @@ services:
       - frontend
       - backend
       - monitoring
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/_stats"]
-      interval: 10s
-      timeout: 3s
-      retries: 3
-      start_period: 15s
     restart: unless-stopped
 
   # ============================================

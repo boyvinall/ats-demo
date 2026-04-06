@@ -18,9 +18,23 @@ ip_allow:
     action: allow
     methods: ALL
 
-  # Allow PURGE from Docker frontend network (HAProxy access)
+  # Allow PURGE from Docker networks (HAProxy access)
+  # Use broader ranges to cover Docker's dynamic network allocation
   - apply: in
-    ip_addrs: 192.168.195.0/24
+    ip_addrs: 172.16.0.0/12
+    action: allow
+    methods:
+      - GET
+      - HEAD
+      - POST
+      - PUT
+      - DELETE
+      - PURGE
+      - OPTIONS
+      - CONNECT
+
+  - apply: in
+    ip_addrs: 192.168.0.0/16
     action: allow
     methods:
       - GET

@@ -1,9 +1,9 @@
 # Apache Traffic Server Cluster Example
 
-An example of running Apache Traffic Server (ATS) as a 3-node cluster using Docker Compose, with consistent hashing load balancing and full monitoring stack (Prometheus + Grafana).  
+An example of running [Apache Traffic Server](https://trafficserver.apache.org/) (ATS) as a 3-node cluster using Docker Compose, with consistent hashing load balancing and full monitoring stack (Prometheus + Grafana).  
 
-[!NOTE]
-There's a lot in here which is production-ready but some things are optimised for a test setup, so a full review is recommended.
+> [!NOTE]
+> There's a lot in here which is production-ready but some things are optimised for a test setup, so a full review is recommended.
 
 ## Architecture
 
@@ -130,6 +130,33 @@ curl -s -o /dev/null -D - http://localhost/page2
 ```
 
 **Note**: Use `GET` requests (without `-I`) for cache testing. ATS doesn't cache `HEAD` requests directly, but rather from a `GET` request.
+
+#### Understanding the Via Header
+
+ATS adds a `Via` header to responses that shows which node handled the request and cache status information, e.g.:
+
+```plaintext
+via: http/1.1 ats-node-1 (ApacheTrafficServer/10.1.0 [cRs f ])
+```
+
+**Via Header Flags Explained:**
+
+The flags in brackets `[cRs f ]` indicate the request processing details:
+
+- **c** = Cache lookup performed (cache was checked for this object)
+- **R** = RAM cache hit (object was found in RAM cache, fastest possible response)
+- **s** = Simple request (not a conditional/range request)
+- **f** = Cache fill complete (object is fully cached)
+- **` `** (space) = Client-to-proxy request was a simple HTTP request
+
+Other common flags you might see:
+
+- **M** = Cache miss (object not in cache, fetched from origin)
+- **N** = Document not cacheable
+- **H** = Hit with revalidation
+- **I** = Conditional cache miss
+
+The Via header is useful for debugging cache behavior and confirming which ATS node served the request.
 
 #### Test #3: Verify Load Distribution
 

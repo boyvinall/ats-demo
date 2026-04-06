@@ -2,6 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(docker exec:*)",
+      "Bash(docker image inspect:*)",
       "Bash(docker inspect:*)",
       "Bash(docker logs:*)",
       "Bash(docker network:*)",
@@ -14,7 +15,6 @@
       "Bash(curl:*)",
       "Bash(make:*)",
       "Bash(shellcheck:*)",
-      "Bash(./tests/test-cache-hit-rate.sh:*)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:hub.docker.com)",
       "WebFetch(domain:docs.trafficserver.apache.org)"

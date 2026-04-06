@@ -19,7 +19,7 @@ help:
 ## up: Start the cluster
 up: build
 	@echo "$(BLUE)Starting ATS cluster...$(NC)"
-	docker compose up -d
+	docker compose up -d --wait --wait-timeout 120
 	@echo "$(GREEN)Cluster started!$(NC)"
 	@echo "Access points:"
 	@echo "  - HTTP: http://localhost"
