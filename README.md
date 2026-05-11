@@ -213,7 +213,7 @@ curl -X PURGE http://localhost/api/users
 curl -s -o /dev/null -D - http://localhost/page1 | grep Age
 ```
 
-**Access Control**: PURGE requests are restricted by IP address. See [ats/ip_allow.yaml](ats/ip_allow.yaml) for configuration.
+**Access Control**: PURGE requests are restricted by IP address. See [ats/config/ip_allow.yaml](ats/config/ip_allow.yaml) for configuration.
 
 ## Monitoring
 
@@ -261,15 +261,15 @@ Shows:
 
 ### ATS Configuration Files
 
-- [ats/records.yaml](ats/records.yaml) - Main ATS configuration (aggressive caching settings)
-- [ats/remap.config](ats/remap.config) - URL remapping rules (simplified, order-dependent)
-- [ats/storage.config](ats/storage.config) - Cache storage settings
-- [ats/volume.config](ats/volume.config) - Cache volume definitions
-- [ats/hosting.config](ats/hosting.config) - Volume routing configuration
-- [ats/cache.config](ats/cache.config) - Cache rules
-- [ats/ip_allow.yaml](ats/ip_allow.yaml) - IP-based access control for PURGE requests
-- [ats/plugin.config](ats/plugin.config) - Enabled plugins
-- [ats/logging.yaml](ats/logging.yaml) - Logging configuration
+- [ats/config/records.yaml](ats/config/records.yaml) - Main ATS configuration (aggressive caching settings)
+- [ats/config/remap.config](ats/config/remap.config) - URL remapping rules (simplified, order-dependent)
+- [ats/config/storage.config](ats/config/storage.config) - Cache storage settings
+- [ats/config/volume.config](ats/config/volume.config) - Cache volume definitions
+- [ats/config/hosting.config](ats/config/hosting.config) - Volume routing configuration
+- [ats/config/cache.config](ats/config/cache.config) - Cache rules
+- [ats/config/ip_allow.yaml](ats/config/ip_allow.yaml) - IP-based access control for PURGE requests
+- [ats/config/plugin.config](ats/config/plugin.config) - Enabled plugins
+- [ats/config/logging.yaml](ats/config/logging.yaml) - Logging configuration
 
 ### HAProxy Configuration
 
@@ -279,7 +279,7 @@ Shows:
 
 ### Important: Remap Config Order
 
-The [ats/remap.config](ats/remap.config) has been simplified but **order matters**:
+The [ats/config/remap.config](ats/config/remap.config) has been simplified but **order matters**:
 
 1. Most specific rules first (e.g., `/api/`)
 2. Then medium specificity (e.g., `/static/`)
@@ -429,7 +429,7 @@ docker compose restart prometheus grafana
 
 ### Increase Cache Size
 
-Edit [ats/storage.config](ats/storage.config):
+Edit [ats/config/storage.config](ats/config/storage.config):
 
 ```plaintext
 /cache/trafficserver 500G
@@ -439,7 +439,7 @@ Change to desired size (e.g., `1T` for 1 terabyte).
 
 ### Adjust Cache TTLs
 
-Edit [ats/records.yaml](ats/records.yaml):
+Edit [ats/config/records.yaml](ats/config/records.yaml):
 
 ```yaml
 http:
@@ -450,7 +450,7 @@ http:
 
 ### Configure Cache Behavior
 
-The current configuration uses aggressive caching. Edit [ats/records.yaml](ats/records.yaml) to tune:
+The current configuration uses aggressive caching. Edit [ats/config/records.yaml](ats/config/records.yaml) to tune:
 
 ```yaml
 http:
@@ -465,7 +465,7 @@ To make caching less aggressive, set these to `0`.
 
 ### Scale to More Nodes
 
-1. Add `ats-4` to [docker compose.yml](docker compose.yml) (copy `ats-3`)
+1. Add `ats-4` to [docker-compose.yml](docker-compose.yml) (copy `ats-3`)
 2. Add `ats-4` to [haproxy/haproxy.cfg](haproxy/haproxy.cfg):
 
    ```plaintext
@@ -517,12 +517,12 @@ To make caching less aggressive, set these to `0`.
 
 This project has been enhanced with:
 
-- **Cache Purging**: Implemented PURGE method with IP-based access control via [ats/ip_allow.yaml](ats/ip_allow.yaml)
+- **Cache Purging**: Implemented PURGE method with IP-based access control via [ats/config/ip_allow.yaml](ats/config/ip_allow.yaml)
 - **Aggressive Caching**: Configured to cache dynamic URLs, cookies, and ignore client no-cache directives
-- **Volume Management**: Added [ats/volume.config](ats/volume.config) and [ats/hosting.config](ats/hosting.config) for better cache organization
+- **Volume Management**: Added [ats/config/volume.config](ats/config/volume.config) and [ats/config/hosting.config](ats/config/hosting.config) for better cache organization
 - **Improved Testing**: Enhanced test scripts with JSON validation, cache verification, and log checking
 - **Better Observability**: Improved Grafana dashboards with more detailed metrics
-- **Simplified Config**: Streamlined [ats/remap.config](ats/remap.config) (order-dependent rules)
+- **Simplified Config**: Streamlined [ats/config/remap.config](ats/config/remap.config) (order-dependent rules)
 - **Load Testing**: Integrated Vegeta for realistic load testing
 - **Direct Origin Access**: Origins exposed on ports 9001-9003 for direct testing
 
