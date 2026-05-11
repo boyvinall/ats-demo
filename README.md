@@ -277,24 +277,6 @@ Shows:
   - `balance uri` - Hash based on request URI
   - `hash-type consistent` - Consistent hashing algorithm
 
-### Important: Remap Config Order
-
-The [ats/config/remap.config](ats/config/remap.config) has been simplified but **order matters**:
-
-1. Most specific rules first (e.g., `/api/`)
-2. Then medium specificity (e.g., `/static/`)
-3. Catch-all rules last (e.g., `/`)
-
-**Old approach** (redundant): Had separate rules for each port
-**New approach** (clean): Single rule per endpoint, ATS listens on port 8080
-
-```plaintext
-# Correct order:
-map http://localhost/api/ http://origin-api:9002/api/      # Specific
-map http://localhost/static/ http://origin-static:9003/    # Specific
-map http://localhost/ http://origin-web:9001/              # Catch-all (MUST be last)
-```
-
 ### Customization
 
 Edit [.env](.env) to change:
@@ -526,55 +508,28 @@ This project has been enhanced with:
 - **Load Testing**: Integrated Vegeta for realistic load testing
 - **Direct Origin Access**: Origins exposed on ports 9001-9003 for direct testing
 
-## Future Enhancements
-
-Ideas for extending this example:
-
-### SSL/TLS Termination
-
-Add HTTPS support with Let's Encrypt or self-signed certificates.
-
-### ESI (Edge Side Includes)
-
-Fragment caching for dynamic pages.
-
-### Rate Limiting
-
-Add rate limiting plugin to protect origins.
-
-### GeoIP Routing
-
-Route based on client location for geo-distributed deployments.
-
-### Distributed Tracing
-
-Add Jaeger for request tracing across all components.
-
-### Alerting
-
-Connect Prometheus alerts to Slack/PagerDuty.
-
-### Blue/Green Deployments
-
-Show how to roll out origin changes without downtime.
-
-### Cache Warming
-
-Scripts to pre-populate caches with common content.
-
-## Contributing
+## Contributing / Future Enhancements
 
 Contributions welcome! Ideas:
 
 - Add more test scenarios
 - Improve Grafana dashboards
-- Add cache purge examples
-- Add SSL/TLS examples
 - Document advanced ATS features
+
+Ideas for enhanced functionality:
+
+- **SSL/TLS Termination** – Add HTTPS support with Let's Encrypt or self-signed certificates.
+- **ESI (Edge Side Includes)** – Fragment caching for dynamic pages.
+- **Rate Limiting** – Add rate limiting plugin to protect origins.
+- **GeoIP Routing** – Route based on client location for geo-distributed deployments.
+- **Distributed Tracing** – Add Jaeger for request tracing across all components.
+- **Alerting** – Connect Prometheus alerts to Slack/PagerDuty.
+- **Blue/Green Deployments** – Show how to roll out origin changes without downtime.
+- **Cache Warming** – Scripts to pre-populate caches with common content.
 
 ## License
 
-MIT License - feel free to use this as a starting point for your own ATS deployments.
+[MIT License](LICENSE.md) - feel free to use this as a starting point for your own ATS deployments.
 
 ## Resources
 
@@ -583,7 +538,3 @@ MIT License - feel free to use this as a starting point for your own ATS deploym
 - [Docker Compose Documentation](https://docs.docker.com/compose/)
 - [Prometheus Documentation](https://prometheus.io/docs/)
 - [Grafana Documentation](https://grafana.com/docs/)
-
-## Credits
-
-Built as a reference implementation for running ATS in containerized environments with modern DevOps practices.
